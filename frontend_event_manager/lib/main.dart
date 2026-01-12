@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,23 +13,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Eventos Universitarios',
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(primarySwatch: Colors.blue),
       home: const HomeScreen(),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Eventos'),
-      ),
-      body: const Center(
-        child: Text('Aquí irá la lista de eventos'),
-      ),
     );
   }
 }
