@@ -3,6 +3,8 @@ import '../models/evento.dart';
 import '../services/api_service.dart';
 import 'inscripcion_screen.dart';
 import 'participantes_screen.dart';
+import 'registro_estudiante_screen.dart';
+import 'crear_evento_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -42,6 +44,43 @@ class _HomeScreenState extends State<HomeScreen> {
             tooltip: 'Actualizar lista',
           )
         ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Colors.blue),
+              child: Text("Gestión de Eventos", style: TextStyle(color: Colors.white, fontSize: 24)),
+            ),
+            ListTile(
+              leading: const Icon(Icons.event),
+              title: const Text("Ver Eventos"),
+              onTap: () => Navigator.pop(context),
+            ),
+            ListTile(
+              leading: const Icon(Icons.person_add),
+              title: const Text("Registrar Estudiante"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context, 
+                  MaterialPageRoute(builder: (context) => RegistroEstudianteScreen())
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.add_box),
+              title: const Text("Crear Evento"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context, 
+                  MaterialPageRoute(builder: (context) => CrearEventoScreen())
+                ).then((value) => _cargarEventos());
+              },
+            ),
+          ],
+        ),
       ),
       body: FutureBuilder<List<Evento>>(
         future: futureEventos,
