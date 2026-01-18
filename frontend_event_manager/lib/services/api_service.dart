@@ -5,7 +5,7 @@ import '../models/estudiante.dart';
 
 class ApiService {
   // Asegúrate de actualizar esta URL si Codespaces te da una nueva al reiniciar!!!!!
-  static const String baseUrl = "https://jubilant-enigma-pqjxp6q7rvv3rxw6-8000.app.github.dev";
+  static const String baseUrl = "https://special-pancake-qg7wpxgv9pxf4j5x-8000.app.github.dev/";
 
   // 1. OBTENER LISTA DE EVENTOS
   Future<List<Evento>> getEventos() async {
@@ -47,13 +47,26 @@ class ApiService {
   }
 
   // 4. REGISTRAR NUEVO ESTUDIANTE (Para RegistroEstudianteScreen)
-  Future<bool> crearEstudiante(Map<String, dynamic> datos) async {
+  Future<void> crearEstudiante(Map<String, dynamic> datos) async {
     final response = await http.post(
       Uri.parse('$baseUrl/estudiantes/'),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(datos),
     );
-    return response.statusCode == 201;
+
+    if (response.statusCode != 201) {
+      final errorData = jsonDecode(response.body);
+      
+      String mensajeError = "Error en el registro";
+      
+      if (errorData is Map) {
+        // Tomamos el primer error que aparezca en el JSON
+        var primerError = errorData.values.first;
+        mensajeError = primerError is List ? primerError[0] : primerError.toString();
+      }
+      
+      throw mensajeError; // Esto envía el error a la pantalla
+    }
   }
 
   // 5. REGISTRAR UNA INSCRIPCIÓN (Para el botón confirmar de InscripcionScreen)
